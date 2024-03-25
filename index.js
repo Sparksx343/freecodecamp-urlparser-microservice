@@ -40,10 +40,6 @@ app.post("/api/shorturl", function (req, res) {
     return res.json(errorMsg);
   }
   let parsed_url;
-  const modified_url = url.replace(
-    /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/,
-    ""
-  );
 
   try {
     parsed_url = new URL(url);
@@ -51,7 +47,7 @@ app.post("/api/shorturl", function (req, res) {
     return res.json(errorMsg);
   }
 
-  DNS.lookup(modified_url, (err) => {
+  DNS.lookup(parsed_url.hostname, (err) => {
     if (err) {
       return res.json(errorMsg);
     } else {
